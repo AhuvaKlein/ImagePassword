@@ -1,0 +1,24 @@
+﻿@using ImagesPassword.Data
+@using _412019.Models
+@model ViewImageViewModel
+
+@if (Model.IncorrectPassword)
+{
+    if (Model.Password != null)
+    {
+        <h2> Incorrect Password!Try Again</h2>
+    }
+    <div class="well">
+        <form action="/home/viewImage">
+            <input type="hidden" name="id" value="@Model.Image.Id" />
+            <input type="text" name="Password" placeholder="Password" class="form-control" />
+            <button class="btn btn-primary">View Image</button>
+        </form>
+    </div>
+}
+
+else
+{
+    <img src="~/UploadedImages/@Model.Image.FileName" style="width:400px;" />
+    <h4>Amount of Views: @Model.Image.Views</h4>
+}

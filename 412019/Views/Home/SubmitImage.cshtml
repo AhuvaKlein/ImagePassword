@@ -1,0 +1,16 @@
+﻿@using ImagesPassword.Data
+@model Image
+
+<div class="row">
+    <div class="well">
+        <h2>Your Image has been added. To share with your friends, send them the following link: 
+            <a href="/home/viewImage?id=@Model.Id">http://localhost:61131/home/viewImage?id=@Model.Id</a>
+        <br />
+        Password: @Model.Password
+        
+        </h2>
+
+    </div>
+
+</div>
+
