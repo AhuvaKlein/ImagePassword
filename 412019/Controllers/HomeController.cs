@@ -36,17 +36,37 @@ namespace _412019.Controllers
 
             return View(img);
         }
-        
+
         public ActionResult ViewImage(int id, string password)
         {
             ViewImageViewModel vm = new ViewImageViewModel();
             Image image = mgr.GetImage(id);
-
-            if (Session[$"pw-{id}"] != null)
+            if (image.Id == 0)
             {
-                password = image.Password;
+                vm.IncorrectPassword = true;
             }
-            
+
+            if (Session["pw"] == null)
+            {
+                Session["pw"] = new List<int>();
+            }
+
+            List<int> images = (List<int>)Session["pw"];
+
+            foreach (int i in images)
+            {
+                if (i == id)
+                {
+                    password = image.Password;
+                }
+
+            }
+
+            //if (Session[$"pw-{id}"] != null)
+            //{
+            //    password = image.Password;
+            //}
+
             vm.Image = image;
 
             if (password == null)
@@ -66,7 +86,8 @@ namespace _412019.Controllers
                     vm.Password = password;
                     vm.IncorrectPassword = false;
                     vm.Image.Views = mgr.IncrementCount(id);
-                    Session[$"pw-{id}"] = password;                    
+                    // Session[$"pw-{id}"] = password;   
+                    images.Add(id);
                 }
 
             }

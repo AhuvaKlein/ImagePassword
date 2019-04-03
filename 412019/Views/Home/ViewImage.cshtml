@@ -4,6 +4,11 @@
 
 @if (Model.IncorrectPassword)
 {
+    if (Model.Image.Id == 0)
+    {
+        <h2>Image Doesn't Exist!</h2>
+    }
+
     if (Model.Password != null)
     {
         <h2> Incorrect Password!Try Again</h2>
