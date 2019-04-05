@@ -1,0 +1,18 @@
+﻿
+@using _412019.Models
+@using ImagesPassword.Data
+@model MyAccountViewModel
+
+<h1>Images uploaded by @Model.User.Name</h1>
+
+@foreach (Image i in Model.Images)
+{
+    <img src="/UploadedImages/@i.FileName" style="width:400px;" />
+    <h4>Amount of Views: @i.Views</h4>
+    <h3><a href="/home/viewImage?id=@i.Id">View this image</a></h3>
+}
+
+
+
+
+

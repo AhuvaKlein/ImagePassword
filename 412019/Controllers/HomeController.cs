@@ -14,13 +14,24 @@ namespace _412019.Controllers
     {
         ImageManager mgr = new ImageManager(Properties.Settings.Default.ConStr);
 
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            UploadViewModel vm = new UploadViewModel();
+            vm.IsAuthenticated = User.Identity.IsAuthenticated;
+            if (vm.IsAuthenticated)
+            {
+                User u = mgr.GetUserByEmail(User.Identity.Name);
+                vm.UserId = u.Id;
+                vm.Name = u.Name;
+                vm.Email = u.Email;
+            }
+
+            return View(vm);
         }
 
         [HttpPost]
-        public ActionResult SubmitImage(HttpPostedFileBase image, string password)
+        public ActionResult SubmitImage(HttpPostedFileBase image, string password, int userId)
         {
             string fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
             string fullName = $"{Server.MapPath("/UploadedImages")}\\{fileName}";
@@ -29,10 +40,12 @@ namespace _412019.Controllers
             {
                 FileName = fileName,
                 Password = password,
+                UserId = userId
             };
             int id = mgr.AddImage(img);
 
             img.Id = id;
+
 
             return View(img);
         }
